@@ -60,21 +60,29 @@ Honest boundaries. Each line must be true and verifiable:
 - Doesn't have all the answers — Stratafy is being populated, some context will be thin in the early weeks
 - Not a replacement for talking to your team
 
-### Step 6: Questions
+### Step 6: Questions (interactive — STOP and wait)
 
-Open the floor: "Any questions about how this works, what's connected, or what we'll do with it?"
+Open the floor with: *"Any questions about how this works, what's connected, or what we'll do with it? I'll answer from what I know, or capture it for the team if it's outside my reference."*
 
-Answer from the curated Q&A reference in the `welcome` skill. For questions outside that set:
+**Then STOP. End the turn.** Do not continue rendering Step 7 in the same response. The welcome is genuinely conversational; this stage hands control back to the user. Rendering the question prompt and immediately wrapping is the most common failure mode and breaks the trust pitch.
 
-1. Ask consent: "I don't have an answer to that one. Can I capture your question to share with the team?"
-2. If yes → append to `~/.clickatell/welcome-questions.log` with timestamp
-3. Always point to {{named-human-contact}} at {{contact-email}}
+When the user responds:
+
+- **Question is in the curated Q&A** (carried in the `welcome` skill) → answer from it; ask if they have more.
+- **Question is outside the Q&A** → ask consent ("Can I capture this for the team?"), then if yes append to `$HOME/.clickatell/welcome-questions.log` (resolve `$HOME` via Bash, never use literal `~/`), then point to {{named-human-contact}} at {{contact-email}}; ask if they have more.
+- **User signals done** ("no questions," "all good," similar) → proceed to Step 7.
 
 ### Step 7: Wrap
 
 Single closing line in Clickatell's voice. Mention `/clickatell:help` for any time and `/clickatell:welcome` to re-run.
 
-Then write `~/.clickatell/welcomed.json`:
+Then write the welcomed-state file with proper path discipline:
+
+1. `mkdir -p "$HOME/.clickatell"` via Bash
+2. Resolve `$HOME` via Bash (`echo "$HOME"`) and capture the absolute path
+3. Pass the **absolute path** (e.g. `/Users/X/.clickatell/welcomed.json`) to Write — NEVER pass `~/.clickatell/welcomed.json` directly. The Write tool does not expand `~` and will create a literal `~/` directory in the current working directory.
+
+Content:
 
 ```json
 {

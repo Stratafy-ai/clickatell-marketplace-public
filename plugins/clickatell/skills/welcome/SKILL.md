@@ -69,17 +69,33 @@ Honest boundaries. Each line must be verifiable:
 
 ### 5. Questions
 
-Open the floor. Answer from the curated Q&A below. For questions outside the set:
+Open the floor with: *"Any questions about how this works, what's connected, or what we'll do with it? I'll answer from what I know, or capture it for the team if it's outside my reference."*
 
-1. Ask consent: "Can I capture your question to share with the team?"
-2. If yes → append to `~/.clickatell/welcome-questions.log` with timestamp
-3. Always point to {{named-human-contact}} at {{contact-email}}
+**Then STOP and wait for the user's response.** Do not continue to Step 6 in the same turn. The welcome is interactive; this stage is genuinely conversational. You should hand back to the user and wait for them to either ask a question or signal they're done (e.g. "no questions," "all good," "let's wrap").
+
+When the user replies:
+
+- **If they ask a question** in the curated Q&A below → answer from the Q&A. Then ask if they have more.
+- **If the question is outside the Q&A set** →
+  1. Ask consent: *"I don't have an answer to that one. Can I capture your question to share with the team?"*
+  2. If yes → append to `$HOME/.clickatell/welcome-questions.log` (resolve `$HOME` via Bash; never write to a literal `~/` path)
+  3. Always point to {{named-human-contact}} at {{contact-email}}
+  4. Then ask if they have more questions.
+- **If they signal done** (or say no questions) → proceed to Step 6.
+
+The default path for an employee with no questions is: open the floor → user says "I'm good" / "no questions" → proceed to wrap. The interactive pause is non-negotiable; rendering the question prompt and immediately wrapping defeats the trust pitch.
 
 ### 6. Wrap
 
 Closing line. Mention `/clickatell:help` for anytime and `/clickatell:welcome` to re-run.
 
-Write `~/.clickatell/welcomed.json` with version + timestamp + script version.
+Then write the welcomed-state file:
+
+1. `mkdir -p "$HOME/.clickatell"` via Bash to ensure the directory exists
+2. Resolve `$HOME` (e.g. `echo "$HOME"`) via Bash and capture the absolute path
+3. Pass the **absolute path** (e.g. `/Users/X/.clickatell/welcomed.json`) to Write — NEVER pass `~/.clickatell/welcomed.json` directly to Write; the Write tool does not expand `~` and will create a literal `~/` directory in the current working directory.
+
+Same path discipline applies to `welcome-questions.log` if you append captured questions in Step 5.
 
 ## Curated Q&A Reference (v1 — pending Clickatell sign-off)
 
