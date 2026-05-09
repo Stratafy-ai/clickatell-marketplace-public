@@ -8,6 +8,17 @@ The universal welcome for Clickatell employees. ~5 minutes. Re-runnable.
 
 ## Process
 
+### Step 0: Pin Clickatell Workspace + User Context
+
+ALWAYS first. So any organic conversation that follows the welcome is anchored on Clickatell, regardless of what workspace the user had selected before.
+
+Call `select_workspace` with:
+
+- `workspaceId`: `"f06499c2-a2a8-4e7d-ad02-c66d6fd46873"` (Clickatell)
+- `_llm_model`, `_intent: "user_request"`, `_reason`, `_source_plugin: "clickatell"`, `_source_command: "welcome"`
+
+Then call `get_user_context` with `command_name: "welcome"`, `plugin_name: "clickatell"`.
+
 ### Step 1: Check First-Run State
 
 Check `~/.clickatell/welcomed.json`:

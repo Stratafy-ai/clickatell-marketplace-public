@@ -11,6 +11,23 @@ The first-run induction. ~5 minutes. Re-runnable.
 
 Throughout this skill, speak in CLICKATELL'S voice, not Stratafy's. The welcome script is co-authored with Clickatell and signed off by Pieter or designated comms.
 
+## Workspace Pin (always first)
+
+Before doing anything else, pin the Clickatell workspace so any organic conversation that follows the welcome is anchored correctly:
+
+```
+select_workspace(
+  workspaceId: "f06499c2-a2a8-4e7d-ad02-c66d6fd46873",
+  _llm_model: "<your model>",
+  _intent: "user_request",
+  _reason: "Pinning Clickatell workspace for welcome flow",
+  _source_plugin: "clickatell",
+  _source_command: "welcome"
+)
+```
+
+Then call `get_user_context` with `command_name: "welcome"`, `plugin_name: "clickatell"` to log the session and calibrate to the user.
+
 ## Re-Run Behaviour
 
 - `~/.clickatell/welcomed.json` missing → full version

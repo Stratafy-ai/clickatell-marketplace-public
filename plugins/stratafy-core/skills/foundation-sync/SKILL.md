@@ -1,6 +1,6 @@
 ---
 name: "foundation-sync"
-description: "Manages the local cache of Clickatell's foundation (mission, vision, values, beliefs, principles). Use when the user runs /stratafy:foundation, when foundation context is relevant to their request, or when ~/.stratafy/foundation.md is missing or older than 7 days. Pins Clickatell workspace, calls list_mission/vision/values/beliefs/principles, writes the result to disk, displays formatted output."
+description: "Manages the local cache of Clickatell's foundation (mission, vision, values, beliefs, principles). Use when the user runs /stratafy:foundation, when foundation context is relevant to their request, or when ~/.stratafy/foundation.md is missing or older than 7 days. Pins Clickatell workspace, calls get_workspace_snapshot with sections: [\"foundation\"], writes the result to disk, displays formatted output."
 ---
 
 # Foundation Sync
@@ -34,15 +34,22 @@ Never trust prior session workspace state. The user may have switched workspaces
 
 ## Foundation Fetch
 
-After pinning, call `get_user_context` first (logs session start, user calibration), then in parallel:
+After pinning, call `get_user_context` first (logs session start, user calibration), then call:
 
-- `list_mission`
-- `list_vision`
-- `list_values`
-- `list_beliefs`
-- `list_principles`
+```
+get_workspace_snapshot(
+  sections: ["foundation"],
+  _llm_model: "<your model>",
+  _intent: "user_request",
+  _reason: "Refreshing Clickatell foundation cache",
+  _source_plugin: "stratafy-core",
+  _source_command: "foundation"
+)
+```
 
-Assemble into the canonical document format. Write to `~/.stratafy/foundation.md`.
+This returns mission, vision, values, beliefs, and principles in a single call. The tool description lists the available sections: `foundation`, `strategies`, `initiatives`, `objectives`, `metrics`, `assumptions`, `risks`, `decisions`, `insights`, `key_priorities`, `radar`, `links`. Always pass `sections` — never call without it (the full payload overflows context).
+
+Assemble the foundation portion of the response into the canonical document format. Write to `~/.stratafy/foundation.md`.
 
 ## Cache Logic
 

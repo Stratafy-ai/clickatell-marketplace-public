@@ -30,15 +30,14 @@ Call `select_workspace` with:
 
 Call `get_user_context` first (logs session start, user calibration).
 
-Then call in parallel:
+Then call `get_workspace_snapshot` with:
 
-- `list_mission`
-- `list_vision`
-- `list_values`
-- `list_beliefs`
-- `list_principles`
+- `sections`: `["foundation"]` — REQUIRED, never call without `sections` (full payload overflows context)
+- `_llm_model`, `_intent: "user_request"`, `_reason`, `_source_plugin: "stratafy-core"`, `_source_command: "foundation"`
 
-Assemble into the canonical document format (Step 4 template). Write to `~/.stratafy/foundation.md` with a sync timestamp footer.
+This returns mission, vision, values, beliefs, and principles in a single call.
+
+Assemble the response into the canonical document format (Step 4 template). Write to `~/.stratafy/foundation.md` with a sync timestamp footer.
 
 ### Step 4: Display
 
