@@ -1,10 +1,9 @@
 # stratafy-core
 
-Universal Stratafy connector. In the Clickatell marketplace, this plugin surfaces Clickatell's strategic foundation in Claude.
+Universal Stratafy connector. In the Clickatell marketplace, this plugin provides the platform-side surfaces (connection state, sync transparency, telemetry visibility). The customer-branded surfaces (welcome, help, foundation) live in the sibling `clickatell` plugin.
 
 ## What it does
 
-- `/stratafy:foundation` — Show Clickatell's foundation (mission, vision, values, beliefs, principles)
 - `/stratafy:status` — Sync state and telemetry transparency
 
 ## Provenance

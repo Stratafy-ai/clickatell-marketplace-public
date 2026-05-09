@@ -1,12 +1,13 @@
 # Stratafy Core (Clickatell)
 
-Universal Stratafy connector for Clickatell. Surfaces Clickatell's strategic foundation (mission, vision, values, beliefs, principles) and reports plugin sync state.
+Universal Stratafy connector for Clickatell. Provides the platform-side surfaces that aren't customer-branded: connection state, sync transparency, telemetry visibility.
 
-This plugin pins itself to the Clickatell workspace (`f06499c2-a2a8-4e7d-ad02-c66d6fd46873`) on every command. The user's prior workspace selection is irrelevant — every command call always pins Clickatell first.
+The customer-branded surfaces (welcome, help, foundation) live in the sibling `clickatell` plugin, which calls the Stratafy MCP through this connection.
+
+This plugin pins itself to the Clickatell workspace (`f06499c2-a2a8-4e7d-ad02-c66d6fd46873`) on every command call. The user's prior workspace selection is irrelevant — every command call always pins Clickatell first.
 
 ## Commands
 
-- `/stratafy:foundation` — Display Clickatell's foundation, refreshed from `~/.stratafy/foundation.md` (cached 7 days)
 - `/stratafy:status` — Show what's synced, when, and what telemetry the plugin reports
 
 ## Provenance

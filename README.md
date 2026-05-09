@@ -2,8 +2,8 @@
 
 Cowork plugins distributed to Clickatell employees. Two plugins:
 
-- **stratafy-core** — Surfaces Clickatell's strategic foundation in Claude
-- **clickatell** — Branded welcome and help reference
+- **stratafy-core** — Stratafy platform connector. Provides `/stratafy:status` (connection state, sync freshness, telemetry transparency).
+- **clickatell** — Customer-branded employee surface. Provides `/clickatell:welcome`, `/clickatell:help`, and `/clickatell:foundation`.
 
 ## Branches
 

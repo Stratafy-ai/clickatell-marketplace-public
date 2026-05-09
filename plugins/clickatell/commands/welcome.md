@@ -46,7 +46,7 @@ Two-to-three sentences from Clickatell leadership about why they're rolling this
 
 Three concrete things employees can ask Claude now that they couldn't before:
 
-1. *"Ask Claude about Clickatell's foundation — try `/stratafy:foundation`"*
+1. *"Ask Claude about Clickatell's foundation — try `/clickatell:foundation`"*
 2. *"Ask Claude to draft something that reflects our values"*
 3. *"Ask Claude what it knows about Clickatell"*
 

@@ -53,7 +53,7 @@ Short warm welcome in Clickatell's voice. Acknowledge the new install, signal th
 
 Three concrete asks employees can make of Claude now:
 
-1. "Ask Claude about Clickatell's foundation — try `/stratafy:foundation`"
+1. "Ask Claude about Clickatell's foundation — try `/clickatell:foundation`"
 2. "Ask Claude to draft something that reflects our values"
 3. "Ask Claude what it knows about Clickatell"
 
@@ -106,7 +106,7 @@ Same path discipline applies to `welcome-questions.log` if you append captured q
 > A: No. Your conversations stay on your machine.
 
 > **Q: What does the plugin report?**
-> A: Install events, command-run counts (like "/stratafy:foundation was run 3 times"), and error counts. Not your conversation content. Run `/stratafy:status` to see exactly what's transmitted.
+> A: Install events, command-run counts (like "/clickatell:foundation was run 3 times"), and error counts. Not your conversation content. Run `/stratafy:status` to see exactly what's transmitted.
 
 > **Q: Why are we using this?**
 > A: [Clickatell-leadership-approved answer about strategic intent.]

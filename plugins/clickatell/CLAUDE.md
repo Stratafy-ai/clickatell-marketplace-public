@@ -6,6 +6,7 @@ Branded onboarding for Clickatell employees. Welcome script, help reference, nam
 
 - `/clickatell:welcome` — First-run induction (~5 min). Re-runnable.
 - `/clickatell:help` — Quick reference card. Always available.
+- `/clickatell:foundation` — Display Clickatell's foundation (mission, vision, values, beliefs, principles). Cached 7 days at `~/.stratafy/foundation.md`.
 
 ## Voice
 
@@ -17,7 +18,7 @@ Pinned to Clickatell (`f06499c2-a2a8-4e7d-ad02-c66d6fd46873`). Every command tha
 
 ## Sibling
 
-This plugin works alongside `stratafy-core`. The welcome flow recommends `/stratafy:foundation` and `/stratafy:status` (commands provided by stratafy-core).
+This plugin works alongside `stratafy-core`, which provides the platform-side `/stratafy:status` for connection / telemetry transparency. The customer-facing commands (welcome, help, foundation) all live here.
 
 ## Local Files Written
 

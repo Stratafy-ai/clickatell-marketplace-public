@@ -1,7 +1,7 @@
 {
   "name": "clickatell",
-  "version": "0.1.0",
-  "description": "Clickatell branded onboarding — universal welcome and help reference for every Clickatell employee.",
+  "version": "0.2.0",
+  "description": "Clickatell-branded employee surface — welcome induction, help reference, and foundation (mission, vision, values, beliefs, principles) pulled live from Stratafy.",
   "author": {
     "name": "Stratafy",
     "url": "https://stratafy.ai"

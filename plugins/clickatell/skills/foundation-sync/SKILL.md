@@ -1,6 +1,6 @@
 ---
 name: "foundation-sync"
-description: "Manages the local cache of Clickatell's foundation (mission, vision, values, beliefs, principles). Use when the user runs /stratafy:foundation, when foundation context is relevant to their request, or when ~/.stratafy/foundation.md is missing or older than 7 days. Pins Clickatell workspace, calls get_workspace_snapshot with sections: [\"foundation\"], writes the result to disk, displays formatted output."
+description: "Manages the local cache of Clickatell's foundation (mission, vision, values, beliefs, principles). Use when the user runs /clickatell:foundation, when foundation context is relevant to their request, or when ~/.stratafy/foundation.md is missing or older than 7 days. Pins Clickatell workspace, calls get_workspace_snapshot with sections: [\"foundation\"], writes the result to disk, displays formatted output."
 ---
 
 # Foundation Sync
@@ -11,7 +11,7 @@ This skill manages the local cache of Clickatell's foundation.
 
 Use when:
 
-- The user runs `/stratafy:foundation`
+- The user runs `/clickatell:foundation`
 - Foundation context is relevant to a request (the user asks "what does Clickatell value?", "what's our mission?", etc.)
 - `~/.stratafy/foundation.md` is missing or older than 7 days
 
@@ -23,11 +23,11 @@ Combine workspace pin and user-context load in ONE call by passing `workspace_id
 get_user_context(
   workspace_id: "f06499c2-a2a8-4e7d-ad02-c66d6fd46873",
   command_name: "foundation",
-  plugin_name: "stratafy-core",
+  plugin_name: "clickatell",
   _llm_model: "<your model>",
   _intent: "user_request",
   _reason: "Loading user context and pinning Clickatell workspace for foundation read",
-  _source_plugin: "stratafy-core",
+  _source_plugin: "clickatell",
   _source_command: "foundation"
 )
 ```
@@ -46,7 +46,7 @@ get_workspace_snapshot(
   _llm_model: "<your model>",
   _intent: "user_request",
   _reason: "Refreshing Clickatell foundation cache",
-  _source_plugin: "stratafy-core",
+  _source_plugin: "clickatell",
   _source_command: "foundation"
 )
 ```
@@ -78,7 +78,7 @@ Always include the sync timestamp in the displayed output:
 
 ## Provenance
 
-- `_source_plugin`: `"stratafy-core"`
+- `_source_plugin`: `"clickatell"`
 - `_source_command`: `"foundation"`
 - `_change_reasoning`: e.g., `"Foundation cache miss after 7-day expiry"`
 

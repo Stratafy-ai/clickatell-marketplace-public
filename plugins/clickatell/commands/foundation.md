@@ -2,7 +2,7 @@
 description: "Display Clickatell's strategic foundation — mission, vision, values, beliefs, principles"
 ---
 
-# /stratafy:foundation
+# /clickatell:foundation
 
 Display Clickatell's foundation in clean markdown. Refreshed from Stratafy weekly.
 
@@ -27,8 +27,8 @@ Call `get_user_context` with:
 
 - `workspace_id`: `"f06499c2-a2a8-4e7d-ad02-c66d6fd46873"` (Clickatell — pins the session as a side effect)
 - `command_name`: `"foundation"`
-- `plugin_name`: `"stratafy-core"`
-- `_llm_model`, `_intent: "user_request"`, `_reason`, `_source_plugin: "stratafy-core"`, `_source_command: "foundation"`
+- `plugin_name`: `"clickatell"`
+- `_llm_model`, `_intent: "user_request"`, `_reason`, `_source_plugin: "clickatell"`, `_source_command: "foundation"`
 
 This sets the workspace, logs the session, and returns user calibration data in one round-trip. Do NOT call `select_workspace` separately — it's redundant when `get_user_context` carries `workspace_id`.
 
@@ -37,7 +37,7 @@ This sets the workspace, logs the session, and returns user calibration data in 
 Call `get_workspace_snapshot` with:
 
 - `sections`: `["foundation"]` — REQUIRED, never call without `sections` (full payload overflows context)
-- `_llm_model`, `_intent: "user_request"`, `_reason`, `_source_plugin: "stratafy-core"`, `_source_command: "foundation"`
+- `_llm_model`, `_intent: "user_request"`, `_reason`, `_source_plugin: "clickatell"`, `_source_command: "foundation"`
 
 This returns mission, vision, values, beliefs, and principles in a single call.
 
@@ -82,7 +82,7 @@ End with: "Run `/stratafy:status` to see what else is synced, or `/clickatell:he
 
 Every call includes:
 
-- `_source_plugin`: `"stratafy-core"`
+- `_source_plugin`: `"clickatell"`
 - `_source_command`: `"foundation"`
 - `_change_reasoning`: brief description (e.g., "Initial foundation sync after 7-day cache expiry")
 

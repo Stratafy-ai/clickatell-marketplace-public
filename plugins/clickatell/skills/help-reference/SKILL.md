@@ -46,7 +46,7 @@ at {{contact-email}}.
 
 ## Useful commands
 - /clickatell:welcome — re-run the introduction
-- /stratafy:foundation — show Clickatell's foundation
+- /clickatell:foundation — show Clickatell's foundation
 - /stratafy:status — what's synced and how fresh
 ```
 

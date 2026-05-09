@@ -45,13 +45,13 @@ Stratafy plugin status:
 ✓ Workspace: Clickatell
 ✓ Foundation synced {{n}} days ago
   Next auto-refresh: in {{7-n}} days
-  Force refresh: /stratafy:foundation
+  Force refresh: /clickatell:foundation
 
 Plugin version: stratafy-core {{version}}
 
 What this plugin reports to your workspace admin:
 - Plugin install / activation / uninstall events
-- Command-run counts (e.g. "/stratafy:foundation run 4 times this week")
+- Command-run counts (e.g. "/clickatell:foundation run 4 times this week")
 - Error counts when commands fail
 
 What this plugin does NOT report:
