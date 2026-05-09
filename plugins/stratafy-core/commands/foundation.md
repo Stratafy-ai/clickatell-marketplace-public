@@ -10,10 +10,16 @@ Display Clickatell's foundation in clean markdown. Refreshed from Stratafy weekl
 
 ### Step 1: Check Local Cache
 
-Check if `~/.stratafy/foundation.md` exists and was modified less than 7 days ago.
+Check if `~/.stratafy/foundation.md` exists and was modified less than 7 days ago. Use Bash with `"$HOME/.stratafy/foundation.md"` (quoted) — never rely on `~` literal expansion in tool args.
 
 - If yes → display its contents and skip to Step 4.
 - If no → continue to Step 2.
+
+**Path discipline:** the cache lives at the absolute path `$HOME/.stratafy/foundation.md`. The `Write` tool does NOT expand `~` — passing `~/.stratafy/foundation.md` to Write creates a literal `~` folder in the current working directory. Always:
+
+1. Resolve `$HOME` via Bash (`echo "$HOME"`) before Write
+2. Pass the absolute path (e.g. `/Users/X/.stratafy/foundation.md`) to Write
+3. `mkdir -p "$HOME/.stratafy"` first to ensure the directory exists
 
 ### Step 2: Pin Clickatell + Load User Context (single call)
 

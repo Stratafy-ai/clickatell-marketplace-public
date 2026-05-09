@@ -87,3 +87,10 @@ Always include the sync timestamp in the displayed output:
 Reads / writes:
 
 - `~/.stratafy/foundation.md` — cached foundation document
+
+**Path expansion is critical.** Always expand `~` to `$HOME` before writing. The `Write` tool does NOT auto-expand `~` — passing `~/.stratafy/foundation.md` to Write creates a literal `~` directory in cwd. Either:
+
+- Resolve via Bash first: `mkdir -p "$HOME/.stratafy"` then `Write` to the absolute path returned by `echo "$HOME/.stratafy/foundation.md"`, OR
+- Always use the absolute path string (e.g. `/Users/leonardcremer/.stratafy/foundation.md`) — which means the skill must read `$HOME` at runtime.
+
+Recommended: shell out to Bash to ensure the directory exists, capture the absolute path, then Write to that absolute path. The Bash freshness check should also use `"$HOME/.stratafy/foundation.md"` (quoted) for consistency.
