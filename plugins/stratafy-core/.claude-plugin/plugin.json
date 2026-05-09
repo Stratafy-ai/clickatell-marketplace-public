@@ -1,0 +1,11 @@
+{
+  "name": "stratafy-core",
+  "version": "0.1.0",
+  "description": "Stratafy connector — surfaces Clickatell's foundation in Claude. Universal pattern reusable across customer marketplaces.",
+  "author": {
+    "name": "Stratafy",
+    "url": "https://stratafy.ai"
+  },
+  "homepage": "https://stratafy.ai",
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "clickatell",
+  "version": "0.1.0",
+  "description": "Clickatell branded onboarding — universal welcome and help reference for every Clickatell employee.",
+  "author": {
+    "name": "Stratafy",
+    "url": "https://stratafy.ai"
+  },
+  "homepage": "https://www.clickatell.com",
+  "license": "Apache-2.0"
+}

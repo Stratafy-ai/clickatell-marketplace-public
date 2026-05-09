@@ -1,0 +1,28 @@
+{
+  "name": "clickatell-marketplace",
+  "owner": {
+    "name": "Stratafy",
+    "email": "hello@stratafy.com"
+  },
+  "metadata": {
+    "description": "Clickatell + Stratafy cowork plugins — Claude grounded in Clickatell's strategy and methodology"
+  },
+  "plugins": [
+    {
+      "name": "stratafy-core",
+      "source": "./plugins/stratafy-core",
+      "description": "Stratafy connector — surfaces Clickatell's foundation (mission, vision, values, beliefs, principles) in Claude. Universal connector reusable across customer marketplaces.",
+      "version": "0.1.0",
+      "author": { "name": "Stratafy" },
+      "keywords": ["stratafy", "foundation", "strategy", "mcp", "connector"]
+    },
+    {
+      "name": "clickatell",
+      "source": "./plugins/clickatell",
+      "description": "Clickatell-branded onboarding and help — induction welcome script, help reference, named human contact for any question Claude can't answer.",
+      "version": "0.1.0",
+      "author": { "name": "Stratafy" },
+      "keywords": ["clickatell", "onboarding", "welcome", "help"]
+    }
+  ]
+}
