@@ -15,22 +15,20 @@ Check if `~/.stratafy/foundation.md` exists and was modified less than 7 days ag
 - If yes → display its contents and skip to Step 4.
 - If no → continue to Step 2.
 
-### Step 2: Pin Clickatell Workspace
+### Step 2: Pin Clickatell + Load User Context (single call)
 
-Call `select_workspace` with:
+Call `get_user_context` with:
 
-- `workspaceId`: `"f06499c2-a2a8-4e7d-ad02-c66d6fd46873"` (Clickatell)
-- `_llm_model`: your model ID
-- `_intent`: `"user_request"`
-- `_reason`: `"Pinning Clickatell workspace for foundation read"`
-- `_source_plugin`: `"stratafy-core"`
-- `_source_command`: `"foundation"`
+- `workspace_id`: `"f06499c2-a2a8-4e7d-ad02-c66d6fd46873"` (Clickatell — pins the session as a side effect)
+- `command_name`: `"foundation"`
+- `plugin_name`: `"stratafy-core"`
+- `_llm_model`, `_intent: "user_request"`, `_reason`, `_source_plugin: "stratafy-core"`, `_source_command: "foundation"`
+
+This sets the workspace, logs the session, and returns user calibration data in one round-trip. Do NOT call `select_workspace` separately — it's redundant when `get_user_context` carries `workspace_id`.
 
 ### Step 3: Fetch Foundation
 
-Call `get_user_context` first (logs session start, user calibration).
-
-Then call `get_workspace_snapshot` with:
+Call `get_workspace_snapshot` with:
 
 - `sections`: `["foundation"]` — REQUIRED, never call without `sections` (full payload overflows context)
 - `_llm_model`, `_intent: "user_request"`, `_reason`, `_source_plugin: "stratafy-core"`, `_source_command: "foundation"`

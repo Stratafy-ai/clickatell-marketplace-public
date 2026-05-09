@@ -11,22 +11,24 @@ The first-run induction. ~5 minutes. Re-runnable.
 
 Throughout this skill, speak in CLICKATELL'S voice, not Stratafy's. The welcome script is co-authored with Clickatell and signed off by Pieter or designated comms.
 
-## Workspace Pin (always first)
+## Workspace Pin + User Context (single call, always first)
 
-Before doing anything else, pin the Clickatell workspace so any organic conversation that follows the welcome is anchored correctly:
+Before anything else, call `get_user_context` with `workspace_id` set. This pins Clickatell, logs the session, and returns user calibration data in one round-trip:
 
 ```
-select_workspace(
-  workspaceId: "f06499c2-a2a8-4e7d-ad02-c66d6fd46873",
+get_user_context(
+  workspace_id: "f06499c2-a2a8-4e7d-ad02-c66d6fd46873",
+  command_name: "welcome",
+  plugin_name: "clickatell",
   _llm_model: "<your model>",
   _intent: "user_request",
-  _reason: "Pinning Clickatell workspace for welcome flow",
+  _reason: "Loading user context and pinning Clickatell workspace for welcome flow",
   _source_plugin: "clickatell",
   _source_command: "welcome"
 )
 ```
 
-Then call `get_user_context` with `command_name: "welcome"`, `plugin_name: "clickatell"` to log the session and calibrate to the user.
+Do NOT call `select_workspace` separately — passing `workspace_id` to `get_user_context` does both jobs. This pinning ensures any organic conversation after the welcome is anchored on Clickatell, regardless of which workspace the user had previously selected.
 
 ## Re-Run Behaviour
 

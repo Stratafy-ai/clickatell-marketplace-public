@@ -15,26 +15,30 @@ Use when:
 - Foundation context is relevant to a request (the user asks "what does Clickatell value?", "what's our mission?", etc.)
 - `~/.stratafy/foundation.md` is missing or older than 7 days
 
-## Workspace Pinning (always first)
+## Workspace Pinning + User Context (single call)
 
-ALWAYS pin the Clickatell workspace before reading:
+Combine workspace pin and user-context load in ONE call by passing `workspace_id` to `get_user_context`. This sets the session workspace AND logs session start AND returns user calibration data — saving a redundant `select_workspace` round-trip:
 
 ```
-select_workspace(
-  workspaceId: "f06499c2-a2a8-4e7d-ad02-c66d6fd46873",
+get_user_context(
+  workspace_id: "f06499c2-a2a8-4e7d-ad02-c66d6fd46873",
+  command_name: "foundation",
+  plugin_name: "stratafy-core",
   _llm_model: "<your model>",
   _intent: "user_request",
-  _reason: "Pinning Clickatell workspace for foundation read",
+  _reason: "Loading user context and pinning Clickatell workspace for foundation read",
   _source_plugin: "stratafy-core",
   _source_command: "foundation"
 )
 ```
 
-Never trust prior session workspace state. The user may have switched workspaces between commands.
+The `workspace_id` parameter on `get_user_context` validates access and sets the session workspace as a side effect. Tool source: `layers/mcp/server/tools/personal-intelligence-tools.ts`. Always pass `workspace_id` — never trust prior session state, because the user may have switched workspaces between commands.
+
+Do NOT call `select_workspace` separately. It is redundant when `get_user_context` carries `workspace_id`.
 
 ## Foundation Fetch
 
-After pinning, call `get_user_context` first (logs session start, user calibration), then call:
+After the pin-and-context call above, fetch the foundation:
 
 ```
 get_workspace_snapshot(
@@ -47,7 +51,7 @@ get_workspace_snapshot(
 )
 ```
 
-This returns mission, vision, values, beliefs, and principles in a single call. The tool description lists the available sections: `foundation`, `strategies`, `initiatives`, `objectives`, `metrics`, `assumptions`, `risks`, `decisions`, `insights`, `key_priorities`, `radar`, `links`. Always pass `sections` — never call without it (the full payload overflows context).
+This returns mission, vision, values, beliefs, and principles in a single call. Available sections: `foundation`, `strategies`, `initiatives`, `objectives`, `metrics`, `assumptions`, `risks`, `decisions`, `insights`, `key_priorities`, `radar`, `links`. Always pass `sections` — never call without it (the full payload overflows context).
 
 Assemble the foundation portion of the response into the canonical document format. Write to `~/.stratafy/foundation.md`.
 

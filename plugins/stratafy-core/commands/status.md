@@ -8,15 +8,16 @@ Show the current state of the Stratafy connection, what's synced and how fresh, 
 
 ## Process
 
-### Step 1: Pin Clickatell Workspace
+### Step 1: Pin Clickatell + Load User Context (single call)
 
-Call `select_workspace` with `workspaceId`: `"f06499c2-a2a8-4e7d-ad02-c66d6fd46873"`.
+Call `get_user_context` with:
 
-Provenance: `_source_plugin: "stratafy-core"`, `_source_command: "status"`, `_intent: "user_request"`, `_reason: "Pinning Clickatell workspace for status read"`.
+- `workspace_id`: `"f06499c2-a2a8-4e7d-ad02-c66d6fd46873"` (Clickatell — pins the session as a side effect)
+- `command_name`: `"status"`
+- `plugin_name`: `"stratafy-core"`
+- `_llm_model`, `_intent: "user_request"`, `_reason`, `_source_plugin: "stratafy-core"`, `_source_command: "status"`
 
-### Step 2: Get User Context
-
-Call `get_user_context` with `command_name: "status"`, `plugin_name: "stratafy-core"`.
+Do NOT call `select_workspace` separately — `get_user_context` with `workspace_id` does both jobs.
 
 ### Step 3: Read Local Cache State
 
