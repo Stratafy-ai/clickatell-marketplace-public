@@ -111,8 +111,8 @@ Same path discipline applies to `welcome-questions.log` if you append captured q
 > **Q: Why are we using this?**
 > A: [Clickatell-leadership-approved answer about strategic intent.]
 
-> **Q: Can I turn this off?**
-> A: Yes. Settings → Plugins → Clickatell → Disable. Or uninstall entirely. No penalty.
+> **Q: Who's managing this plugin?**
+> A: Clickatell. The install is centrally managed, so it stays up to date and consistent across the team. If something feels off — the plugin's behaving oddly, reporting too much, or you'd just like to talk to someone about it — contact {{named-human-contact}} at {{contact-email}}.
 
 > **Q: What if I have other questions?**
 > A: Contact {{named-human-contact}} at {{contact-email}}.
