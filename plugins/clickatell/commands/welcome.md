@@ -82,7 +82,11 @@ When the user responds:
 
 ### Step 7: Wrap
 
-Single closing line in Clickatell's voice. Mention `/clickatell:help` for any time and `/clickatell:welcome` to re-run.
+Single closing line in Clickatell's voice. Mention three follow-ups in this order:
+
+1. **`/clickatell:onboard-me`** — *"if you want Claude to actually know your role and lean on your specific values, this 10-minute conversation does it"* — the natural next step for new users
+2. **`/clickatell:help`** — anytime reference card
+3. **`/clickatell:welcome`** — re-run this welcome flow
 
 Then write the welcomed-state file with project-root path discipline:
 

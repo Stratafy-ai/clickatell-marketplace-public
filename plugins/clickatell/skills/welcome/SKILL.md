@@ -89,7 +89,11 @@ The default path for an employee with no questions is: open the floor → user s
 
 ### 6. Wrap
 
-Closing line. Mention `/clickatell:help` for anytime and `/clickatell:welcome` to re-run.
+Closing line. Recommend three follow-ups in this order:
+
+1. **`/clickatell:onboard-me`** — the natural next step. *"That conversation captures your role, the strategies your work ladders into, and two of our five values that are most active for you — so Claude actually knows what you do. ~10 min, re-runnable."*
+2. **`/clickatell:help`** — reference card, available anytime
+3. **`/clickatell:welcome`** — re-run this welcome
 
 Then write the welcomed-state file with project-root path discipline:
 

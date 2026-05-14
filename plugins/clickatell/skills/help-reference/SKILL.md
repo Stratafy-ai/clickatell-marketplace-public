@@ -42,6 +42,7 @@ plugin is managed, contact {{named-human-contact}} at {{contact-email}}.
 
 ## Useful commands
 - /clickatell:welcome — re-run the introduction
+- /clickatell:onboard-me — connect your role + active values to Claude (~10 min, re-runnable)
 - /clickatell:foundation — show Clickatell's foundation
 - /stratafy:status — what's synced and how fresh
 ```
