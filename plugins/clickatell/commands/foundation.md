@@ -8,18 +8,29 @@ Display Clickatell's foundation in clean markdown. Refreshed from Stratafy weekl
 
 ## Process
 
-### Step 1: Check Local Cache
+### Step 1: Resolve the Project Root + Check Local Cache
 
-Check if `~/.stratafy/foundation.md` exists and was modified less than 7 days ago. Use Bash with `"$HOME/.stratafy/foundation.md"` (quoted) — never rely on `~` literal expansion in tool args.
+The foundation cache lives in the user's project folder (not `$HOME`) so it's readable in Claude Desktop / Cowork — Cowork only exposes the selected project folder to file tools.
 
-- If yes → display its contents and skip to Step 4.
-- If no → continue to Step 2.
+Resolve the project root via Bash, then check the cache freshness:
 
-**Path discipline:** the cache lives at the absolute path `$HOME/.stratafy/foundation.md`. The `Write` tool does NOT expand `~` — passing `~/.stratafy/foundation.md` to Write creates a literal `~` folder in the current working directory. Always:
+```bash
+PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
+CACHE_FILE="$PROJECT_ROOT/.clickatell/foundation.md"
+if [ -f "$CACHE_FILE" ] && [ "$(find "$CACHE_FILE" -mtime -7 | wc -l)" -gt 0 ]; then
+  echo "FRESH ($CACHE_FILE)"
+  cat "$CACHE_FILE"
+else
+  echo "MISS ($CACHE_FILE)"
+fi
+```
 
-1. Resolve `$HOME` via Bash (`echo "$HOME"`) before Write
-2. Pass the absolute path (e.g. `/Users/X/.stratafy/foundation.md`) to Write
-3. `mkdir -p "$HOME/.stratafy"` first to ensure the directory exists
+- FRESH → display its contents and skip to Step 4.
+- MISS → continue to Step 2.
+
+In Claude Code CLI, `$CLAUDE_PROJECT_DIR` (or `pwd`) gives the project. In Cowork, the selected project folder's absolute path is what the model sees in the system prompt — use that. The Write tool does NOT expand `~` and does NOT resolve relative paths; **always pass the absolute path** built from `$PROJECT_ROOT`.
+
+**Migration note:** if `~/.stratafy/foundation.md` exists from an older plugin version, treat it as a cache miss and re-fetch into the new project-relative location. The old home-directory location is invisible in Cowork.
 
 ### Step 2: Pin Clickatell + Load User Context (single call)
 
@@ -41,7 +52,7 @@ Call `get_workspace_snapshot` with:
 
 This returns mission, vision, values, beliefs, and principles in a single call.
 
-Assemble the response into the canonical document format (Step 4 template). Write to `~/.stratafy/foundation.md` with a sync timestamp footer.
+Assemble the response into the canonical document format (Step 4 template). Write to `$PROJECT_ROOT/.clickatell/foundation.md` (resolved in Step 1) with a sync timestamp footer. Ensure the directory exists first: `mkdir -p "$PROJECT_ROOT/.clickatell"`.
 
 ### Step 4: Display
 
@@ -91,4 +102,4 @@ Every call includes:
 1. ALWAYS pin the Clickatell workspace before reading — never trust prior session state
 2. ALWAYS show the sync timestamp so the user knows freshness
 3. NEVER fabricate foundation content if the workspace returns empty — surface honestly
-4. Cache is 7 days — force refresh by deleting `~/.stratafy/foundation.md`
+4. Cache is 7 days — force refresh by deleting `<project-root>/.clickatell/foundation.md`

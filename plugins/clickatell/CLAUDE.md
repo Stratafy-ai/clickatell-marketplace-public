@@ -6,7 +6,7 @@ Branded onboarding for Clickatell employees. Welcome script, help reference, nam
 
 - `/clickatell:welcome` — First-run induction (~5 min). Re-runnable.
 - `/clickatell:help` — Quick reference card. Always available.
-- `/clickatell:foundation` — Display Clickatell's foundation (mission, vision, values, beliefs, principles). Cached 7 days at `~/.stratafy/foundation.md`.
+- `/clickatell:foundation` — Display Clickatell's foundation (mission, vision, values, beliefs, principles). Cached 7 days at `<project-root>/.clickatell/foundation.md`.
 
 ## Voice
 
@@ -22,8 +22,11 @@ This plugin works alongside `stratafy-core`, which provides the platform-side `/
 
 ## Local Files Written
 
-- `~/.clickatell/welcomed.json` — first-run state
-- `~/.clickatell/welcome-questions.log` — unanswered questions (with consent)
+All inside the user's project folder so they're visible to file tools in Claude Desktop / Cowork. Resolved via `${CLAUDE_PROJECT_DIR:-$(pwd)}`.
+
+- `<project-root>/.clickatell/foundation.md` — Clickatell foundation cache (7-day TTL)
+- `<project-root>/.clickatell/welcomed.json` — first-run state
+- `<project-root>/.clickatell/welcome-questions.log` — unanswered questions (with consent)
 
 ## What This Plugin Does NOT Do (v1)
 

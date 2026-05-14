@@ -34,6 +34,18 @@ get_user_context(
 
 Do NOT call `select_workspace` separately — `get_user_context` with `workspace_id` does both jobs.
 
+## Cache State Check
+
+The companion clickatell plugin caches local state inside the user's project folder (not `$HOME`) so files are visible to file tools in Claude Desktop / Cowork. To report cache freshness, resolve the project root and check via Bash:
+
+```bash
+PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
+ls -la "$PROJECT_ROOT/.clickatell/foundation.md" 2>/dev/null
+ls -la "$PROJECT_ROOT/.clickatell/welcomed.json" 2>/dev/null
+```
+
+If files exist in the legacy `~/.stratafy/` or `~/.clickatell/` locations, surface them as legacy paths that should be migrated by re-running `/clickatell:foundation` and `/clickatell:welcome`.
+
 ## Status Block
 
 Render this format:

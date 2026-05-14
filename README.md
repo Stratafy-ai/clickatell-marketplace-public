@@ -20,9 +20,13 @@ Cowork plugins distributed to Clickatell employees. Two plugins:
 
 ## Local Files Written
 
-- `~/.stratafy/foundation.md` — Clickatell foundation cache (refreshed weekly)
-- `~/.clickatell/welcomed.json` — first-run timestamp + script version
-- `~/.clickatell/welcome-questions.log` — unanswered questions captured during welcome (with consent)
+All inside the user's project folder so they're visible to file tools in both Claude Code CLI and Claude Desktop / Cowork. Resolve the project root via `${CLAUDE_PROJECT_DIR:-$(pwd)}` in Bash.
+
+- `<project-root>/.clickatell/foundation.md` — Clickatell foundation cache (7-day TTL)
+- `<project-root>/.clickatell/welcomed.json` — first-run timestamp + script version
+- `<project-root>/.clickatell/welcome-questions.log` — unanswered questions captured during welcome (with consent)
+
+Earlier plugin versions cached to `~/.stratafy/foundation.md` and `~/.clickatell/welcomed.json` under `$HOME`. Cowork only exposes the selected project folder to file tools, so those legacy locations are invisible and cache writes silently failed to round-trip. v0.3.0+ scopes everything inside the project folder.
 
 ## Provenance
 

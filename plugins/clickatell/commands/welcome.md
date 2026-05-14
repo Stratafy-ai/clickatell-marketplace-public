@@ -23,12 +23,20 @@ Do NOT call `select_workspace` separately — `get_user_context` with `workspace
 
 ### Step 1: Check First-Run State
 
-Check `~/.clickatell/welcomed.json`:
+The first-run flag lives in the user's **project folder** (not `$HOME`) so it's readable in Claude Desktop / Cowork. Resolve via Bash:
+
+```bash
+PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
+FLAG="$PROJECT_ROOT/.clickatell/welcomed.json"
+test -f "$FLAG" && echo "PRESENT" || echo "ABSENT"
+```
 
 - If absent → run the full version (Steps 2–7)
 - If present → ask: "You've done this before. Want the full version or a quick recap?"
   - Full → Steps 2–7
   - Quick recap → Steps 2, 5, 7 only (welcome, what-it-isn't reminder, wrap)
+
+Migration note: if `~/.clickatell/welcomed.json` exists from an older plugin version, treat it as ABSENT — the home-directory location is invisible in Cowork.
 
 ### Step 2: Open
 
@@ -69,18 +77,22 @@ Open the floor with: *"Any questions about how this works, what's connected, or 
 When the user responds:
 
 - **Question is in the curated Q&A** (carried in the `welcome` skill) → answer from it; ask if they have more.
-- **Question is outside the Q&A** → ask consent ("Can I capture this for the team?"), then if yes append to `$HOME/.clickatell/welcome-questions.log` (resolve `$HOME` via Bash, never use literal `~/`), then point to {{named-human-contact}} at {{contact-email}}; ask if they have more.
+- **Question is outside the Q&A** → ask consent ("Can I capture this for the team?"), then if yes append to `$PROJECT_ROOT/.clickatell/welcome-questions.log` (resolve `$PROJECT_ROOT` via Bash — `${CLAUDE_PROJECT_DIR:-$(pwd)}`, never use literal `~/`), then point to {{named-human-contact}} at {{contact-email}}; ask if they have more.
 - **User signals done** ("no questions," "all good," similar) → proceed to Step 7.
 
 ### Step 7: Wrap
 
 Single closing line in Clickatell's voice. Mention `/clickatell:help` for any time and `/clickatell:welcome` to re-run.
 
-Then write the welcomed-state file with proper path discipline:
+Then write the welcomed-state file with project-root path discipline:
 
-1. `mkdir -p "$HOME/.clickatell"` via Bash
-2. Resolve `$HOME` via Bash (`echo "$HOME"`) and capture the absolute path
-3. Pass the **absolute path** (e.g. `/Users/X/.clickatell/welcomed.json`) to Write — NEVER pass `~/.clickatell/welcomed.json` directly. The Write tool does not expand `~` and will create a literal `~/` directory in the current working directory.
+```bash
+PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
+mkdir -p "$PROJECT_ROOT/.clickatell"
+echo "$PROJECT_ROOT/.clickatell/welcomed.json"   # absolute path to pass to Write
+```
+
+Then pass the absolute path (e.g. `/Users/X/projects/foo/.clickatell/welcomed.json`) to Write. NEVER pass `~/.clickatell/welcomed.json` or a bare `.clickatell/welcomed.json` — the Write tool does not expand `~` and does not resolve relative paths.
 
 Content:
 

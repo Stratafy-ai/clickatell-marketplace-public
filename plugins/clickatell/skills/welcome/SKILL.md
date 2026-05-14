@@ -1,6 +1,6 @@
 ---
 name: "welcome"
-description: "First-run induction for Claude at Clickatell. Walks the employee through what the plugin is, why Clickatell is rolling it out, what's local vs synced, honest boundaries, and answers their questions. Re-runnable. Use when the user runs /clickatell:welcome or when ~/.clickatell/welcomed.json doesn't exist and the user is interacting with the plugin."
+description: "First-run induction for Claude at Clickatell. Walks the employee through what the plugin is, why Clickatell is rolling it out, what's local vs synced, honest boundaries, and answers their questions. Re-runnable. Use when the user runs /clickatell:welcome or when <project-root>/.clickatell/welcomed.json doesn't exist and the user is interacting with the plugin."
 ---
 
 # Welcome — Clickatell Onboarding
@@ -32,7 +32,9 @@ Do NOT call `select_workspace` separately — passing `workspace_id` to `get_use
 
 ## Re-Run Behaviour
 
-- `~/.clickatell/welcomed.json` missing → full version
+Cache file lives at `<project-root>/.clickatell/welcomed.json`. Resolve `<project-root>` via Bash (`PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"`) — see *Local Files* below for full path-resolution rules.
+
+- File missing → full version
 - File present → ask: full or recap?
   - Full → all stages
   - Recap → stages 1, 5, 7 (welcome, what-it-isn't reminder, wrap)
@@ -78,7 +80,7 @@ When the user replies:
 - **If they ask a question** in the curated Q&A below → answer from the Q&A. Then ask if they have more.
 - **If the question is outside the Q&A set** →
   1. Ask consent: *"I don't have an answer to that one. Can I capture your question to share with the team?"*
-  2. If yes → append to `$HOME/.clickatell/welcome-questions.log` (resolve `$HOME` via Bash; never write to a literal `~/` path)
+  2. If yes → append to `$PROJECT_ROOT/.clickatell/welcome-questions.log` (resolve `$PROJECT_ROOT` via Bash — see *Local Files* below)
   3. Always point to {{named-human-contact}} at {{contact-email}}
   4. Then ask if they have more questions.
 - **If they signal done** (or say no questions) → proceed to Step 6.
@@ -89,13 +91,19 @@ The default path for an employee with no questions is: open the floor → user s
 
 Closing line. Mention `/clickatell:help` for anytime and `/clickatell:welcome` to re-run.
 
-Then write the welcomed-state file:
+Then write the welcomed-state file with project-root path discipline:
 
-1. `mkdir -p "$HOME/.clickatell"` via Bash to ensure the directory exists
-2. Resolve `$HOME` (e.g. `echo "$HOME"`) via Bash and capture the absolute path
-3. Pass the **absolute path** (e.g. `/Users/X/.clickatell/welcomed.json`) to Write — NEVER pass `~/.clickatell/welcomed.json` directly to Write; the Write tool does not expand `~` and will create a literal `~/` directory in the current working directory.
+```bash
+PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
+mkdir -p "$PROJECT_ROOT/.clickatell"
+echo "$PROJECT_ROOT/.clickatell/welcomed.json"   # absolute path to pass to Write
+```
+
+Then pass the absolute path (e.g. `/Users/X/projects/foo/.clickatell/welcomed.json`) to Write. NEVER pass `~/.clickatell/welcomed.json` or a relative `.clickatell/welcomed.json` — the Write tool does not expand `~` or resolve relative paths.
 
 Same path discipline applies to `welcome-questions.log` if you append captured questions in Step 5.
+
+**Migration note:** if `~/.clickatell/welcomed.json` exists from an older plugin version, treat it as if the welcome hasn't happened yet (run the full version), then write the new project-scoped file. The old home-directory location is invisible to file tools in Claude Desktop / Cowork.
 
 ## Curated Q&A Reference (v1 — pending Clickatell sign-off)
 
@@ -122,8 +130,27 @@ Same path discipline applies to `welcome-questions.log` if you append captured q
 
 ## Local Files
 
-- `~/.clickatell/welcomed.json` — first-run state, written at end of full or recap
-- `~/.clickatell/welcome-questions.log` — unanswered questions, append-only with consent
+All files live inside the user's project folder (NOT `$HOME`). In Claude Desktop / Cowork, only the selected project folder is visible to file tools; files in `$HOME` are silently invisible on the next run.
+
+- `<project-root>/.clickatell/welcomed.json` — first-run state, written at end of full or recap
+- `<project-root>/.clickatell/welcome-questions.log` — unanswered questions, append-only with consent
+
+### Resolving the project root
+
+Use Bash to resolve in this order:
+
+1. `$CLAUDE_PROJECT_DIR` environment variable if set (Claude Code CLI)
+2. The selected project folder's absolute path (Claude Desktop / Cowork — exposed in the system prompt)
+3. `$(pwd)` as a final fallback
+
+Standard snippet:
+
+```bash
+PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
+mkdir -p "$PROJECT_ROOT/.clickatell"
+```
+
+Always pass the **absolute** path to Read/Write tools. Never pass `~/...` (tilde isn't expanded) or a bare `.clickatell/...` (treated as relative to wherever Write thinks it is, which in Cowork is the scratchpad, not the project).
 
 ## Rules
 

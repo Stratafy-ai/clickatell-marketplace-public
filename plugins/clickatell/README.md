@@ -14,9 +14,13 @@ Pairs with `stratafy-core`, which provides `/stratafy:status` (connection / tele
 
 ## Local Files
 
-- `~/.stratafy/foundation.md` — cached foundation (refreshed weekly)
-- `~/.clickatell/welcomed.json` — first-run timestamp + version
-- `~/.clickatell/welcome-questions.log` — unanswered questions, append-only with consent
+All files live inside the user's project folder so they're visible to Claude's file tools in both Claude Code CLI and Claude Desktop / Cowork. Resolve the project root via Bash: `PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"`.
+
+- `<project-root>/.clickatell/foundation.md` — cached foundation (7-day TTL)
+- `<project-root>/.clickatell/welcomed.json` — first-run timestamp + version
+- `<project-root>/.clickatell/welcome-questions.log` — unanswered questions, append-only with consent
+
+> Earlier plugin versions wrote these to `~/.stratafy/foundation.md` and `~/.clickatell/welcomed.json`. Those locations are invisible to file tools in Claude Desktop / Cowork. Re-running `/clickatell:foundation` and `/clickatell:welcome` migrates state into the new project-scoped location.
 
 ## Provenance
 

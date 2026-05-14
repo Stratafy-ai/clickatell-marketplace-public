@@ -1,7 +1,7 @@
 {
   "name": "clickatell",
-  "version": "0.2.0",
-  "description": "Clickatell-branded employee surface — welcome induction, help reference, and foundation (mission, vision, values, beliefs, principles) pulled live from Stratafy.",
+  "version": "0.3.0",
+  "description": "Clickatell-branded employee surface — welcome induction, help reference, and foundation (mission, vision, values, beliefs, principles) pulled live from Stratafy. Local cache scoped to the project folder so it's visible in Claude Desktop / Cowork.",
   "author": {
     "name": "Stratafy",
     "url": "https://stratafy.ai"

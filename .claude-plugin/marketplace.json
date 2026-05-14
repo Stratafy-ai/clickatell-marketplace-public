@@ -11,18 +11,34 @@
     {
       "name": "stratafy-core",
       "source": "./plugins/stratafy-core",
-      "description": "Stratafy platform connector — connection state, sync transparency, and telemetry visibility surfaces. Universal companion to any customer-branded marketplace plugin.",
-      "version": "0.2.0",
-      "author": { "name": "Stratafy" },
-      "keywords": ["stratafy", "status", "telemetry", "mcp", "connector"]
+      "description": "Stratafy platform connector — connection state, sync transparency, telemetry visibility. Universal companion to any customer-branded marketplace plugin. Reports cache freshness from project-scoped local files.",
+      "version": "0.3.0",
+      "author": {
+        "name": "Stratafy"
+      },
+      "keywords": [
+        "stratafy",
+        "status",
+        "telemetry",
+        "mcp",
+        "connector"
+      ]
     },
     {
       "name": "clickatell",
       "source": "./plugins/clickatell",
-      "description": "Clickatell-branded employee surface — welcome induction, help reference, and foundation (mission, vision, values, beliefs, principles) pulled live from Stratafy.",
-      "version": "0.2.0",
-      "author": { "name": "Stratafy" },
-      "keywords": ["clickatell", "onboarding", "welcome", "foundation", "help"]
+      "description": "Clickatell-branded employee surface — welcome induction, help reference, and foundation (mission, vision, values, beliefs, principles) pulled live from Stratafy. Local cache scoped to the project folder so it is visible in Claude Desktop / Cowork.",
+      "version": "0.3.0",
+      "author": {
+        "name": "Stratafy"
+      },
+      "keywords": [
+        "clickatell",
+        "onboarding",
+        "welcome",
+        "foundation",
+        "help"
+      ]
     }
   ]
 }

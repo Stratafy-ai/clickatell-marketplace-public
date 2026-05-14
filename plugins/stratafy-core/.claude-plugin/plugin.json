@@ -1,7 +1,7 @@
 {
   "name": "stratafy-core",
-  "version": "0.2.0",
-  "description": "Stratafy platform connector — connection state, sync transparency, telemetry visibility. Universal companion to any customer-branded marketplace plugin.",
+  "version": "0.3.0",
+  "description": "Stratafy platform connector — connection state, sync transparency, telemetry visibility. Universal companion to any customer-branded marketplace plugin. Reports cache freshness from project-scoped local files.",
   "author": {
     "name": "Stratafy",
     "url": "https://stratafy.ai"
