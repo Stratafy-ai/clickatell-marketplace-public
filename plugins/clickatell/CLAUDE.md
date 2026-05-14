@@ -4,9 +4,19 @@ Branded onboarding for Clickatell employees. Welcome script, help reference, nam
 
 ## Commands
 
+### Setup (run-once-ish)
+
 - `/clickatell:welcome` — First-run induction (~5 min). Re-runnable.
-- `/clickatell:onboard-me` — Role-aware onboarding after welcome (~10 min). Captures the user's role, primary strategy, active values, and three concrete role-specific patterns. Re-runnable when role shifts.
-- `/clickatell:help` — Quick reference card. Always available.
+- `/clickatell:onboard-me` — Role-aware onboarding after welcome (~10 min). Captures the user's role, primary strategy, active values. Re-runnable when role shifts.
+
+### Weekly rhythm
+
+- `/clickatell:lets-go` — Monday morning: briefing of the week's most relevant objectives/decisions/insights from the workspace; capture 1–3 commitments anchored to active values.
+- `/clickatell:call-it-a-week` — Friday afternoon: walk through Monday's commitments (done / partial / stuck), capture what surfaced, plugin feedback, optional log-to-Stratafy of material items, generate a team-channel-ready weekly wrap.
+
+### Always available
+
+- `/clickatell:help` — Quick reference card.
 - `/clickatell:foundation` — Display Clickatell's foundation (mission, vision, values, beliefs, principles). Cached 7 days at `<project-root>/.clickatell/foundation.md`.
 
 ## Voice
@@ -28,7 +38,10 @@ All inside the user's project folder so they're visible to file tools in Claude 
 - `<project-root>/.clickatell/foundation.md` — Clickatell foundation cache (7-day TTL)
 - `<project-root>/.clickatell/welcomed.json` — welcome first-run state
 - `<project-root>/.clickatell/onboarded.json` — role-aware onboarding state (role, primary strategy, active values, weekly focus)
-- `<project-root>/.clickatell/welcome-questions.log` — unanswered questions (with consent)
+- `<project-root>/.clickatell/week-{iso-week}.json` — Monday's commitments, written by `/clickatell:lets-go`, read by `/clickatell:call-it-a-week`
+- `<project-root>/.clickatell/wrap-{iso-week}.json` — Friday's wrap, written by `/clickatell:call-it-a-week`
+- `<project-root>/.clickatell/welcome-questions.log` — unanswered welcome questions (with consent)
+- `<project-root>/.clickatell/plugin-feedback.log` — plugin feedback captured weekly by `/clickatell:call-it-a-week` (with consent)
 
 ## What This Plugin Does NOT Do (v1)
 

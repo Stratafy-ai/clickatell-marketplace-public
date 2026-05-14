@@ -32,8 +32,16 @@ For anything Claude can't help with, or for questions about how the
 plugin is managed, contact {{named-human-contact}} at {{contact-email}}.
 
 ## Useful commands
+
+Setup:
 - /clickatell:welcome — re-run the introduction
 - /clickatell:onboard-me — connect your role + active values to Claude (~10 min, re-runnable)
+
+Weekly rhythm:
+- /clickatell:lets-go — Monday morning, set the week with workspace context
+- /clickatell:call-it-a-week — Friday afternoon, close the week and capture what surfaced
+
+Always available:
 - /clickatell:foundation — show Clickatell's foundation
 - /stratafy:status — what's synced and how fresh
 ```

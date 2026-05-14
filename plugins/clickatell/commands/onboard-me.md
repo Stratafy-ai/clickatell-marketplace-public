@@ -112,7 +112,9 @@ Close with:
 
 > "From now on when you ask Claude something, it knows you're `{{role}}` working on `{{Strategy A}}` with `{{value1}}` and `{{value2}}` as your active values. Try one of the three things above, or just ask Claude something about your work — see what changes when it has context.
 >
-> Run `/clickatell:onboard-me` again any time your role shifts. `/clickatell:welcome` for the introduction recap. `/clickatell:help` for support."
+> Two commands turn this into a habit: `/clickatell:lets-go` on Monday morning to set the week, and `/clickatell:call-it-a-week` on Friday to close it. Try them this week.
+>
+> `/clickatell:onboard-me` re-runnable any time your role shifts. `/clickatell:help` for support."
 
 Then write the state file with project-root path discipline:
 

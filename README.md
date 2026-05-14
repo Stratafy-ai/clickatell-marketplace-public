@@ -3,7 +3,7 @@
 Cowork plugins distributed to Clickatell employees. Two plugins:
 
 - **stratafy-core** — Stratafy platform connector. Provides `/stratafy:status` (connection state, sync freshness, telemetry transparency).
-- **clickatell** — Customer-branded employee surface. Provides `/clickatell:welcome`, `/clickatell:onboard-me`, `/clickatell:help`, and `/clickatell:foundation`.
+- **clickatell** — Customer-branded employee surface. Provides setup (`/clickatell:welcome`, `/clickatell:onboard-me`), weekly rhythm (`/clickatell:lets-go`, `/clickatell:call-it-a-week`), and always-available (`/clickatell:help`, `/clickatell:foundation`).
 
 ## Branches
 
@@ -25,7 +25,10 @@ All inside the user's project folder so they're visible to file tools in both Cl
 - `<project-root>/.clickatell/foundation.md` — Clickatell foundation cache (7-day TTL)
 - `<project-root>/.clickatell/welcomed.json` — welcome first-run timestamp + script version
 - `<project-root>/.clickatell/onboarded.json` — role-aware onboarding state (role, primary strategy, active values, weekly focus)
-- `<project-root>/.clickatell/welcome-questions.log` — unanswered questions captured during welcome (with consent)
+- `<project-root>/.clickatell/week-{iso-week}.json` — Monday's commitments per ISO week
+- `<project-root>/.clickatell/wrap-{iso-week}.json` — Friday's wrap per ISO week
+- `<project-root>/.clickatell/welcome-questions.log` — unanswered welcome questions (with consent)
+- `<project-root>/.clickatell/plugin-feedback.log` — weekly plugin feedback captured by call-it-a-week (with consent)
 
 Earlier plugin versions cached to `~/.stratafy/foundation.md` and `~/.clickatell/welcomed.json` under `$HOME`. Cowork only exposes the selected project folder to file tools, so those legacy locations are invisible and cache writes silently failed to round-trip. v0.3.0+ scopes everything inside the project folder.
 

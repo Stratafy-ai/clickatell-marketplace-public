@@ -119,7 +119,9 @@ For each one, give a concrete sentence the user could literally paste back into 
 
 Close with:
 
-> *"From now on when you ask Claude something, it knows you're {{role}} working on {{Strategy A}} with {{value1}} and {{value2}} as your active values. Try one of the three patterns above, or just ask Claude about your work — see what changes when it has context. Run `/clickatell:onboard-me` again any time your role shifts."*
+> *"From now on when you ask Claude something, it knows you're {{role}} working on {{Strategy A}} with {{value1}} and {{value2}} as your active values. Try one of the three patterns above, or just ask Claude about your work — see what changes when it has context.*
+>
+> *Two ways to make this stick as a habit: run `/clickatell:lets-go` on Monday morning to set the week with the workspace context, then `/clickatell:call-it-a-week` on Friday to close it out. Those two together turn this from 'I installed Claude' into 'Claude is how I work.'"*
 
 Then write the onboarded-state file with project-root path discipline:
 
