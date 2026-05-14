@@ -28,7 +28,7 @@
       "name": "clickatell",
       "source": "./plugins/clickatell",
       "description": "Clickatell-branded employee surface — welcome induction, help reference, and foundation (mission, vision, values, beliefs, principles) pulled live from Stratafy. Local cache scoped to the project folder so it is visible in Claude Desktop / Cowork.",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "author": {
         "name": "Stratafy"
       },

@@ -107,6 +107,9 @@ Same path discipline applies to `welcome-questions.log` if you append captured q
 
 ## Curated Q&A Reference (v1 — pending Clickatell sign-off)
 
+> **Source of truth:** Welcome Q&A — Clickatell Cowork Plugin v1 (Stratafy workspace document `5edf6413-d05e-4ae2-a9f5-4cd9041a66ad`, linked under the *AI-Augmented Workforce* strategy → *Pilot Rollout & Onboarding* initiative). The entries below are an embedded copy synced from that document for runtime use. Updates land in Stratafy first, get signed off by Pieter, then engineering pushes the plugin update.
+
+
 > **Q: Does this read my emails?**
 > A: No. Claude only reads what you explicitly point it at — files you open or context from Stratafy when you ask. Your inbox isn't connected unless you connect it yourself.
 
