@@ -57,7 +57,7 @@ Use when:
 - `<project-root>/.clickatell/onboarded.json` is missing AND the user has already completed welcome (welcomed.json present)
 - The user signals their role has changed and asks to "redo onboarding" or similar
 
-## Re-Run Behaviour
+## First-run vs re-run — the register decision
 
 Resolve the project root via Bash, then check the flag:
 
@@ -66,53 +66,78 @@ PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 FLAG="$PROJECT_ROOT/.clickatell/onboarded.json"
 ```
 
-- File missing → full version
-- File present → ask: "Want to refresh — anything changed in your role or focus?"
-  - Yes → full version, overwriting the file
-  - No → skip to wrap (Step 7), no rewrite needed
+The flag doesn't only gate *whether* to run the full flow — it sets the **emotional register** of the open. These are two genuinely different human moments and must not sound the same:
+
+- **File missing → first run.** This may be the person's first-ever contact with Stratafy/Claude at Clickatell. Open **warm and introductory** (Step 1A). Welcome them, orient them to what this conversation is and why it's worth 10 minutes, then deliver the brief unhurried. The subtext is "you belong here", not "here's your status report."
+- **File present → re-run.** They've done this before; role or focus shifted. Open **tight and efficient** (Step 1B). "Welcome back, here's what's moved, anything changed?" Then:
+  - Something changed → full flow, overwriting the file at the end
+  - Nothing changed → skip to wrap (Step 7), no rewrite
+
+Never use first-run warmth on a re-run (patronising the second time). Never use re-run brevity on a first run (cold on someone's first day). The flag tells you which. And NEVER use weekly-rhythm phrasing ("your week", "this week", "let's set the week") anywhere in this command — that is `/clickatell:lets-go`'s job. onboard-me is a one-time (re-runnable) role induction, not a Monday ritual.
 
 ## Conversation Arc
 
-### 1. Brief — Where Clickatell is + where you sit
+### 1A. First run — warm welcome, then the brief
 
-This is the load-bearing change. Don't open with a question. Open with a 30-second brief that locates the user inside the company picture. The data pulls above made this possible — use them.
+This is potentially the person's first day with this. Lead with a genuine welcome and an orientation to what's about to happen — then the brief, delivered as orientation rather than status report.
+
+> *"Welcome to Clickatell — and to working with Claude here.*
+>
+> *I'm going to take about 10 minutes to make sure Claude genuinely understands this company and your role in it — so from day one it's useful for your actual work, not generic. No forms, just a conversation, and you can stop me with a question any time.*
+>
+> *Here's the lay of the land."*
+
+Then deliver the brief. Same content, unhurried:
 
 If role context exists (`role` is populated):
 
-> *"Quick brief before we get into your week.*
->
-> *Clickatell — {{mission tagline}}. Right now, three things are doing most of the work company-wide:*
+> *"Clickatell exists to {{mission tagline}}. Three things are doing most of the work company-wide right now:*
 >
 > *- **{{KP1.title}}** — {{KP1.one_line}}*
 > *- **{{KP2.title}}** — {{KP2.one_line}}*
 > *- **{{KP3.title}}** — {{KP3.one_line}}*
 >
-> *You're sitting in **{{role.job_title}}** in **{{role.department}}** — that puts you most directly in the path of:*
+> *You're coming in as **{{role.job_title}}** in **{{role.department}}** — that puts you most directly in the path of:*
 >
 > *- **{{Strategy A.title}}** — {{Strategy A.tagline}}*
 > *- **{{Strategy B.title}}** — {{Strategy B.tagline}}*
 >
-> *Your mandate, as Stratafy has it: \"{{role.mandate truncated to ~200 chars}}\"*
+> *The mandate we have on file for you: \"{{role.mandate truncated to ~200 chars}}\"*
 >
-> *Make sense? Anything off?"*
+> *Does that land? Anything you'd put differently?"*
 
-Pause here. This is the trust-build moment. If they say "actually I don't really do X anymore, I focus on Y" — capture it and weave through the rest of the conversation. Don't barrel into Step 2 if there's a correction in front of you.
+Pause here — the trust-build moment. A new person correcting their own mandate on day one is a *good* sign; capture it and weave it through the rest. Don't barrel into Step 2 if there's a correction in front of you.
 
 If `role` is null:
 
-> *"Quick brief before we get into your work. Clickatell is focused on three things right now:*
+> *"Clickatell exists to {{mission tagline}}. Three things are doing most of the work right now:*
 >
 > *- **{{KP1.title}}** — {{KP1.one_line}}*
 > *- **{{KP2.title}}** — {{KP2.one_line}}*
 > *- **{{KP3.title}}** — {{KP3.one_line}}*
 >
-> *The work ladders into a handful of active strategies. Once I know what your day-to-day looks like, I can tell you which two of those strategies — and which two of the five values — are most alive for you. Sound good?"*
+> *I don't have your role on file yet — so once I understand what your day-to-day looks like, I'll tell you which two strategies and which two of the five values are most alive for your work. Let's start there."*
+
+### 1B. Re-run — tight re-anchor (no welcome)
+
+They've onboarded before; they don't need re-introducing. Skip the warmth, confirm what's changed:
+
+> *"Welcome back. Quick re-anchor — here's what's moved company-wide since last time:*
+>
+> *- **{{KP1.title}}** — {{KP1.one_line}}*
+> *- **{{KP2.title}}** — {{KP2.one_line}}*
+> *- **{{KP3.title}}** — {{KP3.one_line}}*
+>
+> *Stratafy still has you as **{{role.job_title}}** in **{{role.department}}**. Anything changed in your role or focus?"*
+
+- Something changed → continue into the full flow (Step 2 onward), overwriting the file at the end
+- Nothing changed → jump to wrap (Step 7); no rewrite needed
 
 ### 2. What this means for you — translation
 
 Translate the brief into the user's specific reality. Role + relevant KPs + foundation values, woven into a 2–3 sentence narrative:
 
-> *"For you — sitting in {{role.job_title}} with {{role.mandate fragment, e.g. \"the AI-Augmented Workforce rollout\"}} — two of those Key Priorities are where I'd expect most of your week to live: **{{KP_X}}** and **{{KP_Y}}**.*
+> *"For you — sitting in {{role.job_title}} with {{role.mandate fragment, e.g. \"the AI-Augmented Workforce rollout\"}} — two of those Key Priorities are where I'd expect most of your time to go: **{{KP_X}}** and **{{KP_Y}}**.*
 >
 > *The five Clickatell values sit underneath all of that:*
 >
@@ -122,7 +147,7 @@ Translate the brief into the user's specific reality. Role + relevant KPs + foun
 > *- **COURAGEOUS** — True grit*
 > *- **CREATIVE** — Find a way*
 >
-> *Most days, two of them do disproportionate work for any one person. In ten minutes I'll land which two drive your decisions, what your week actually looks like, and three concrete ways Claude becomes useful in YOUR role."*
+> *Most days, two of them do disproportionate work for any one person. In ten minutes I'll land which two drive your decisions, what your day-to-day actually looks like, and three concrete ways Claude becomes useful in YOUR role."*
 
 This is the translation step the user needs. It connects company-level priorities + their specific role + the values that anchor decisions. They should walk out of Step 2 knowing exactly where they fit.
 
@@ -201,10 +226,10 @@ Then Write to the absolute path `$PROJECT_ROOT/.clickatell/onboarded.json`. JSON
   "version": "1.0",
   "onboarded_at": "{{ISO8601 timestamp}}",
   "role": "{{user-provided or get_user_context value}}",
-  "primary_strategy_id": "{{strategy id from Step 3}}",
-  "primary_strategy_name": "{{strategy name from Step 3}}",
+  "primary_strategy_id": "{{strategy from the brief (Step 1A/1B) — most-active for role, or user override}}",
+  "primary_strategy_name": "{{strategy name}}",
   "active_values": ["{{value1}}", "{{value2}}"],
-  "weekly_focus": "{{user's answer from Step 2, first 200 chars}}",
+  "weekly_focus": "{{user's day-to-day answer from Step 3, first 200 chars}}",
   "onboarding_script_version": "1.0"
 }
 ```
@@ -244,12 +269,13 @@ The local-only design is intentional. It's the same trust posture as the welcome
 
 ## Rules
 
-1. ALWAYS open with the brief (Step 1), not with a question. The brief is what makes this feel like induction, not interview.
-2. ALWAYS pull foundation + strategies + key_priorities in parallel right after `get_user_context` — the brief depends on that data being present
-3. NEVER paraphrase the user's answers — use their actual words when reflecting back role, focus, values
-4. NEVER generic-ize the patterns in Step 5 — every concrete pattern must reference a specific strategy, KP, or value
-5. NEVER skip Step 6 (Questions/more info) — it's the difference between form-filling and conversation. Pause there, answer substantively if asked
-6. NEVER write to `~/.clickatell/` — always the absolute project-rooted path
-7. ALWAYS pin Clickatell workspace first via `get_user_context(workspace_id)`
-8. The point is making Claude useful for THIS user — not collecting data. Skip questions freely if the user signals they want to.
-9. Re-runs are encouraged. Roles shift; this should feel low-friction.
+1. ALWAYS branch the open by first-run vs re-run state (Step 1A warm welcome vs Step 1B tight re-anchor). Never the same register for both — warmth on a re-run patronises; brevity on a first run is cold on someone's first day.
+2. NEVER use weekly-rhythm phrasing ("your week", "this week", "set the week") — that's `/clickatell:lets-go`. This is a one-time role induction, not a Monday ritual.
+3. ALWAYS pull foundation + strategies + key_priorities in parallel right after `get_user_context` — the brief depends on that data being present
+4. NEVER paraphrase the user's answers — use their actual words when reflecting back role, focus, values
+5. NEVER generic-ize the patterns in Step 5 — every concrete pattern must reference a specific strategy, KP, or value
+6. NEVER skip Step 6 (Questions/more info) — it's the difference between form-filling and conversation. Pause there, answer substantively if asked
+7. NEVER write to `~/.clickatell/` — always the absolute project-rooted path
+8. ALWAYS pin Clickatell workspace first via `get_user_context(workspace_id)`
+9. The point is making Claude useful for THIS user — not collecting data. Skip questions freely if the user signals they want to.
+10. Re-runs are encouraged. Roles shift; this should feel low-friction.

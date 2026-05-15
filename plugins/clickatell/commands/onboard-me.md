@@ -38,7 +38,7 @@ What you need from the response:
 
 Step 2 below depends on this data. Don't open the brief without it.
 
-### Step 1: Check First-Run State
+### Step 1: First-run vs re-run — the register decision
 
 Resolve the project root and check for the onboarding flag:
 
@@ -48,43 +48,66 @@ FLAG="$PROJECT_ROOT/.clickatell/onboarded.json"
 test -f "$FLAG" && echo "PRESENT" || echo "ABSENT"
 ```
 
-- If absent → run the full version (Steps 2–7)
-- If present → ask: "You've done onboarding before. Want to refresh — anything changed in your role or focus?" If yes → full version. If no → skip to Step 7 wrap.
+The flag sets the **register**, not just whether to run the full flow. Two different human moments:
 
-### Step 2: Brief — Where Clickatell is + where you sit
+- **ABSENT → first run.** Possibly the person's first-ever contact with Stratafy/Claude here. Open **warm and introductory** (Step 2A).
+- **PRESENT → re-run.** They've done this; role/focus shifted. Open **tight** (Step 2B). Something changed → full flow. Nothing changed → skip to Step 8 wrap.
 
-Don't open with a question. Open with a 30-second brief that locates the user inside the company picture. Use the data pulled in Step 0b.
+Never use first-run warmth on a re-run, or re-run brevity on a first run. And NEVER use weekly-rhythm phrasing ("your week", "this week", "set the week") — that's `/clickatell:lets-go`'s job. onboard-me is a one-time (re-runnable) role induction, not a Monday ritual.
 
-If role context exists (`role` is populated):
+### Step 2A: First run — warm welcome, then the brief
 
-> "Quick brief before we get into your week.
+Lead with a genuine welcome and an orientation to what's about to happen. Then the brief (data from Step 0b), unhurried, as orientation not status report.
+
+> "Welcome to Clickatell — and to working with Claude here.
 >
-> Clickatell — `{{mission tagline}}`. Right now, three things are doing most of the work company-wide:
+> I'm going to take about 10 minutes to make sure Claude genuinely understands this company and your role in it — so from day one it's useful for your actual work, not generic. No forms, just a conversation, and you can stop me with a question any time.
+>
+> Here's the lay of the land."
+
+Then, if role context exists (`role` is populated):
+
+> "Clickatell exists to `{{mission tagline}}`. Three things are doing most of the work company-wide right now:
 >
 > - **`{{KP1.title}}`** — `{{KP1.one_line}}`
 > - **`{{KP2.title}}`** — `{{KP2.one_line}}`
 > - **`{{KP3.title}}`** — `{{KP3.one_line}}`
 >
-> You're sitting in **`{{role.job_title}}`** in **`{{role.department}}`** — that puts you most directly in the path of:
+> You're coming in as **`{{role.job_title}}`** in **`{{role.department}}`** — that puts you most directly in the path of:
 >
 > - **`{{Strategy A.title}}`** — `{{Strategy A.tagline}}`
 > - **`{{Strategy B.title}}`** — `{{Strategy B.tagline}}`
 >
-> Your mandate, as Stratafy has it: \"`{{role.mandate, first ~200 chars}}`\"
+> The mandate we have on file for you: \"`{{role.mandate, first ~200 chars}}`\"
 >
-> Make sense? Anything off?"
+> Does that land? Anything you'd put differently?"
 
-Pause for the user. This is the trust-build moment. If they correct anything, capture it and weave through the rest.
+Pause for the user. This is the trust-build moment. A new person correcting their own mandate is a *good* sign — capture it and weave through the rest.
 
-If `role` is null, lead with the company brief and skip the role line:
+If `role` is null:
 
-> "Quick brief before we get into your work. Clickatell is focused on three things right now: `{{KP1}}`, `{{KP2}}`, `{{KP3}}`. Once I know what your day-to-day looks like, I can tell you which two strategies — and which two of the five values — are most alive for you. Sound good?"
+> "Clickatell exists to `{{mission tagline}}`. Three things are doing most of the work right now: `{{KP1}}`, `{{KP2}}`, `{{KP3}}`. I don't have your role on file yet — so once I understand your day-to-day, I'll tell you which two strategies and which two of the five values are most alive for your work. Let's start there."
+
+### Step 2B: Re-run — tight re-anchor (no welcome)
+
+They've onboarded before; skip the welcome.
+
+> "Welcome back. Quick re-anchor — here's what's moved company-wide since last time:
+>
+> - **`{{KP1.title}}`** — `{{KP1.one_line}}`
+> - **`{{KP2.title}}`** — `{{KP2.one_line}}`
+> - **`{{KP3.title}}`** — `{{KP3.one_line}}`
+>
+> Stratafy still has you as **`{{role.job_title}}`** in **`{{role.department}}`**. Anything changed in your role or focus?"
+
+- Changed → continue into the full flow (Step 3 onward), overwrite the file at the end
+- Nothing changed → jump to Step 8 wrap; no rewrite
 
 ### Step 3: What this means for you — translation
 
 Translate the brief into the user's specific reality. Two or three sentences. Role + relevant KPs + values, woven together:
 
-> "For you — sitting in `{{role.job_title}}` with `{{role.mandate fragment}}` — two of those Key Priorities are where I'd expect most of your week to live: **`{{KP_X}}`** and **`{{KP_Y}}`**.
+> "For you — sitting in `{{role.job_title}}` with `{{role.mandate fragment}}` — two of those Key Priorities are where I'd expect most of your time to go: **`{{KP_X}}`** and **`{{KP_Y}}`**.
 >
 > The five Clickatell values sit underneath:
 >
@@ -94,7 +117,7 @@ Translate the brief into the user's specific reality. Two or three sentences. Ro
 > - **COURAGEOUS** — True grit
 > - **CREATIVE** — Find a way
 >
-> Most days, two of them do disproportionate work for any one person. In ten minutes I'll land which two drive your decisions, what your week actually looks like, and three concrete ways Claude becomes useful in YOUR role."
+> Most days, two of them do disproportionate work for any one person. In ten minutes I'll land which two drive your decisions, what your day-to-day actually looks like, and three concrete ways Claude becomes useful in YOUR role."
 
 This is the connective tissue: company-priorities × your-role × values = your-specific-reality.
 
@@ -217,12 +240,13 @@ On every MCP call, include:
 
 ## Rules
 
-1. ALWAYS open with the brief (Step 2), not with a question. The brief is what makes this feel like induction, not interview.
-2. ALWAYS pull foundation + strategies + key_priorities in parallel (Step 0b) right after `get_user_context` — the brief depends on that data
-3. NEVER paraphrase the user's answers — use their actual words when reflecting back role, focus, values
-4. NEVER generic-ize the concrete patterns in Step 6 — anchor each one to a specific strategy, KP, or value
-5. NEVER skip Step 7 (Questions/more info) — it's the difference between form-filling and conversation. Pause there. Answer substantively if asked.
-6. NEVER write to `~/.clickatell/` — always the project-rooted path
-7. ALWAYS pin Clickatell workspace via `get_user_context(workspace_id)` before anything else
-8. The point is making Claude useful for THIS user's work, not collecting data. If the user wants to skip a question, skip it.
-9. Re-runs are encouraged — roles shift, focus changes, this should feel low-friction to redo
+1. ALWAYS branch the open by first-run vs re-run state (Step 2A warm welcome vs Step 2B tight re-anchor). Never the same register for both — warmth on a re-run patronises; brevity on a first run is cold on someone's first day.
+2. NEVER use weekly-rhythm phrasing ("your week", "this week", "set the week") — that's `/clickatell:lets-go`. This is a one-time role induction, not a Monday ritual.
+3. ALWAYS pull foundation + strategies + key_priorities in parallel (Step 0b) right after `get_user_context` — the brief depends on that data
+4. NEVER paraphrase the user's answers — use their actual words when reflecting back role, focus, values
+5. NEVER generic-ize the concrete patterns in Step 6 — anchor each one to a specific strategy, KP, or value
+6. NEVER skip Step 7 (Questions/more info) — it's the difference between form-filling and conversation. Pause there. Answer substantively if asked.
+7. NEVER write to `~/.clickatell/` — always the project-rooted path
+8. ALWAYS pin Clickatell workspace via `get_user_context(workspace_id)` before anything else
+9. The point is making Claude useful for THIS user's work, not collecting data. If the user wants to skip a question, skip it.
+10. Re-runs are encouraged — roles shift, focus changes, this should feel low-friction to redo
