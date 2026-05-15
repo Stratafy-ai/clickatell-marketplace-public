@@ -39,12 +39,11 @@ ONBOARDED="$PROJECT_ROOT/.clickatell/onboarded.json"
 Call in parallel:
 
 - `list_objectives` filtered to active status with target dates within the next 4 weeks, scoped to the user's primary strategy if known
-- `list_decisions` filtered to status='pending', scoped to user's primary strategy if known
-- `list_insights` with `limit: 5` ordered by insight_timestamp DESC
-- `list_signals` for the user's primary strategy if known
-- `list_risks` filtered to high impact / open status
+- `list_risks` filtered to high impact / open status, scoped to the user's primary strategy if known
 
-Aim for a slim pull — 10–15 entities total across all categories. The point is signal, not noise.
+Aim for a slim pull — 5–10 entities total across both categories. The point is signal, not noise. The briefing is two sections (Objectives near target + High-impact risks) plus the user's context line — deliberately spare.
+
+Why no decisions / insights / signals: those surface naturally during the week when relevant. The Monday briefing is for orientation, not completeness. Less noise, more useful.
 
 ### Step 3: Render the briefing
 
@@ -63,17 +62,11 @@ Good morning, {{first_name}}. Here's what the workspace has for you this week.
 ## Objectives near their target dates
 {{For each: title — target_date — current_value vs target_value}}
 
-## Pending decisions
-{{For each: title — decided_by_date — context line}}
-
-## Surfaced this week
-{{Recent insights / signals — 2-3 max}}
-
 ## High-impact open risks
-{{1-2 if any; skip section if none}}
+{{For each: name — likelihood × impact — one-line description}}
 ```
 
-If a section is empty, say so cleanly: *"No pending decisions in your primary strategy this week."* Don't fabricate.
+If either section is empty, say so cleanly: *"No high-impact risks logged against your primary strategy."* Don't fabricate.
 
 ### Step 4: Commit to 1–3 things
 

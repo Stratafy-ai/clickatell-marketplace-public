@@ -44,27 +44,26 @@ If missing, offer onboarding but proceed without it if user declines.
 
 ## Pull this week's relevant context
 
-Parallel MCP calls (slim filters; aim for 10-15 entities total):
+Parallel MCP calls (slim filters; aim for 5-10 entities total):
 
 - `list_objectives` — active status, target_date within next 4 weeks, scoped to primary strategy if known
-- `list_decisions` — pending status, scoped to primary strategy if known
-- `list_insights` — most recent 5
-- `list_signals` — for primary strategy if known
-- `list_risks` — high impact + open status
+- `list_risks` — high impact + open status, scoped to primary strategy if known
 
-If any pull returns empty for the user's scope, say so honestly. Don't pad with workspace-wide data unless the user asks.
+That's it. Two pulls. Plus `get_user_context` for the identity line.
+
+**Why deliberately spare:** decisions, insights, and signals surface naturally during the week when relevant. The Monday briefing is for orientation, not completeness. Less noise, more useful. If the user wants the full intelligence-layer dump, they can ask Claude directly mid-week.
+
+If either pull returns empty for the user's scope, say so honestly. Don't pad with workspace-wide data unless the user asks.
 
 ## Conversation arc
 
 ### 1. Briefing
 
-Render a structured Monday briefing — one screen, no scroll:
+Render a structured Monday briefing — one screen, no scroll. Three sections:
 
 - User's context line (role, primary strategy, active values)
 - Objectives near target dates (3-5 max)
-- Pending decisions (3 max)
-- Surfaced this week (2-3 insights/signals)
-- Open high-impact risks (1-2 if any)
+- Open high-impact risks (2-3 max)
 
 ### 2. Commitments
 
