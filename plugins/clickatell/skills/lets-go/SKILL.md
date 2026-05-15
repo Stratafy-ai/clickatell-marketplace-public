@@ -46,22 +46,26 @@ If missing, offer onboarding but proceed without it if user declines.
 
 Parallel MCP calls (slim filters; aim for 5-10 entities total):
 
+- `list_key_priorities` — active status — the company-wide cross-strategy lenses focused on right now
 - `list_objectives` — active status, target_date within next 4 weeks, scoped to primary strategy if known
 - `list_risks` — high impact + open status, scoped to primary strategy if known
 
-That's it. Two pulls. Plus `get_user_context` for the identity line.
+Three pulls. Plus `get_user_context` for the identity line.
 
 **Why deliberately spare:** decisions, insights, and signals surface naturally during the week when relevant. The Monday briefing is for orientation, not completeness. Less noise, more useful. If the user wants the full intelligence-layer dump, they can ask Claude directly mid-week.
 
-If either pull returns empty for the user's scope, say so honestly. Don't pad with workspace-wide data unless the user asks.
+**Why Key Priorities are included even for users anchored to a primary strategy:** KPs are cross-strategy lenses. A CHRO whose primary strategy is People & Culture still needs the week's company-wide focus surfaced. The KP section deliberately ignores the primary-strategy filter — it shows what the whole company is focused on this quarter.
+
+If any pull returns empty for the user's scope, say so honestly. Don't pad with workspace-wide data unless the user asks.
 
 ## Conversation arc
 
 ### 1. Briefing
 
-Render a structured Monday briefing — one screen, no scroll. Three sections:
+Render a structured Monday briefing — one screen, no scroll. Four sections:
 
 - User's context line (role, primary strategy, active values)
+- Company key priorities right now (active KPs — typically 2-4)
 - Objectives near target dates (3-5 max)
 - Open high-impact risks (2-3 max)
 

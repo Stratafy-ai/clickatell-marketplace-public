@@ -1,6 +1,6 @@
 {
   "name": "clickatell",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Clickatell-branded employee surface — setup (welcome + onboard-me), weekly rhythm (lets-go + call-it-a-week), and always-available reference (help + foundation). Local cache scoped to the project folder.",
   "author": {
     "name": "Stratafy",
